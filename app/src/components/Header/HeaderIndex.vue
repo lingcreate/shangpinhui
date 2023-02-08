@@ -79,7 +79,7 @@ export default {
       // 3、对象写法,实际开发中使用
       let vm = this.$router.push({
         name: "search",
-        params: { keyword: this.keyword },
+        // params: { keyword: this.keyword },
         query: { k: this.keyword.toUpperCase() },
       });
       console.log(vm);
