@@ -47,7 +47,6 @@ export default new VueRouter({
             component: Search,
             meta: { show: true },
             name: 'search'
-
         },
         {
             path: '/register',

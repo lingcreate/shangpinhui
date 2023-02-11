@@ -4,6 +4,7 @@ module.exports = defineConfig({
   // 关闭eslint
   lintOnSave: false,
   devServer: {
+    host: 'localhost',
     proxy: {
       // 前端发送请求时，路径带有/api，代理服务器则会工作
       '/api': {

@@ -17,6 +17,10 @@ export default {
     HeaderIndex,
     FooterIndex,
   },
+  mounted() {
+    // 通知Vuex发请求，获取三级列表数据
+    this.$store.dispatch("home/categoryList");
+  },
 };
 </script>
 

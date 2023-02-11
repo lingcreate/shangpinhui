@@ -77,12 +77,11 @@ export default {
       //   `/search/${this.keyword}?k=${this.keyword.toLocaleUpperCase()}`
       // );
       // 3、对象写法,实际开发中使用
-      let vm = this.$router.push({
-        name: "search",
-        // params: { keyword: this.keyword },
-        query: { k: this.keyword.toUpperCase() },
-      });
-      console.log(vm);
+      let location = { name: "search" };
+      location.params = { keyword: this.keyword };
+      // 如果存在query的话一并传过去
+      if (this.$route.query != {}) location.query = this.$route.query;
+      this.$router.push(location);
     },
   },
 };

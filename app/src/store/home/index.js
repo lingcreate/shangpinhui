@@ -15,7 +15,7 @@ const state = {
 const actions = {
     async categoryList({ commit }) {
         let result = await reqCategoryList();
-        console.log(result);
+        console.log('发送了categoryList请求', result);
         if (result.code == 200) {
             commit("CATEGORYLIST", result.data)
         }

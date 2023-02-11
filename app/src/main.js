@@ -5,7 +5,6 @@ import TypeNav from "@/components/TypeNav/TypeNav.vue"
 Vue.component('TypeNav', TypeNav)
 
 Vue.config.productionTip = false
-
 // 引入路由
 import router from '@/router'
 // 引入仓库
@@ -14,5 +13,5 @@ new Vue({
   render: h => h(App),
   // 注册路由
   router,
-  store
+  store,
 }).$mount('#app')
