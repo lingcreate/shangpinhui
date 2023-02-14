@@ -59,10 +59,8 @@
 </template>
 
 <script>
-import CarouseShow from "@/components/Carouse/Carouse.vue";
 export default {
   name: "ItemFloor",
-  components: { CarouseShow },
   data() {
     return {};
   },

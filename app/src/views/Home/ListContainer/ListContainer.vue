@@ -80,12 +80,8 @@
 
 <script>
 import { mapState } from "vuex";
-import CarouseShow from "@/components/Carouse/Carouse.vue";
 export default {
   name: "ListContainer",
-  components: {
-    CarouseShow,
-  },
   data() {
     return {};
   },

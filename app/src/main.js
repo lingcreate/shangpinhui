@@ -2,8 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 // 注册全局三级联动组件
 import TypeNav from "@/components/TypeNav/TypeNav.vue"
+import CarouseShow from "./components/Carouse/Carouse.vue";
 Vue.component('TypeNav', TypeNav)
-
+Vue.component('CarouseShow', CarouseShow)
 Vue.config.productionTip = false
 // 引入路由
 import router from '@/router'
