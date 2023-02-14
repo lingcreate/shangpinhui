@@ -12,9 +12,7 @@ export default {
     return {};
   },
 
-  mounted() {
-    console.log("我被加载了");
-  },
+  mounted() {},
 
   methods: {},
 };

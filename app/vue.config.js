@@ -9,7 +9,7 @@ module.exports = defineConfig({
       // 前端发送请求时，路径带有/api，代理服务器则会工作
       '/api': {
         target: 'http://gmall-h5-api.atguigu.cn',
-      }
+      },
     },
   },
 })

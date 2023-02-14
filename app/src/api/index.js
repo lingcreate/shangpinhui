@@ -1,5 +1,6 @@
 // api接口统一管理
 import requests from "./request";
+import mockRequest from './mockAjax'
 
 // 三级联动接口 (分别暴露)
 export const reqCategoryList = () => {
@@ -9,3 +10,7 @@ export const reqCategoryList = () => {
         method: 'get',
     })
 }
+
+// 获取banner Mock数据
+export const reqBannerList = () => mockRequest.get('/banner')
+export const reqFloorList = () => mockRequest.get('/floor') 
