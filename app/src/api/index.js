@@ -13,4 +13,12 @@ export const reqCategoryList = () => {
 
 // 获取banner Mock数据
 export const reqBannerList = () => mockRequest.get('/banner')
-export const reqFloorList = () => mockRequest.get('/floor') 
+export const reqFloorList = () => mockRequest.get('/floor')
+// 获取搜索模块数据
+export const reqSearchList = (params) => {
+    return requests({
+        url: '/list',
+        method: 'post',
+        data: params,
+    })
+}

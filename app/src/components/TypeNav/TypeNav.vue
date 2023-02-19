@@ -17,7 +17,7 @@
                 <h3 @mouseenter="changeIndex(index)">
                   <a
                     :data-categoryName="c1.categoryName"
-                    :data-categoryId1="c1.categoryId"
+                    :data-category1Id="c1.categoryId"
                     >{{ c1.categoryName }}</a
                   >
                 </h3>
@@ -35,7 +35,7 @@
                       <dt>
                         <a
                           :data-categoryName="c2.categoryName"
-                          :data-categoryId2="c2.categoryId"
+                          :data-category2Id="c2.categoryId"
                           >{{ c2.categoryName }}</a
                         >
                       </dt>
@@ -43,7 +43,7 @@
                         <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
                           <a
                             :data-categoryName="c3.categoryName"
-                            :data-categoryId3="c3.categoryId"
+                            :data-category3Id="c3.categoryId"
                             >{{ c3.categoryName }}</a
                           >
                         </em>
@@ -104,17 +104,17 @@ export default {
       // 判断是否点击a标签
       // 根据a标签不同的级别，传递不同的参数
       let element = event.target;
-      let { categoryname, categoryid1, categoryid2, categoryid3 } =
+      let { categoryname, category1id, category2id, category3id } =
         element.dataset;
       if (categoryname) {
         let location = { name: "search" };
         let query = { categoryName: categoryname };
-        if (categoryid1) {
-          query.categoryId1 = categoryid1;
-        } else if (categoryid2) {
-          query.categoryId2 = categoryid2;
-        } else if (categoryid3) {
-          query.categoryId3 = categoryid3;
+        if (category1id) {
+          query.category1Id = category1id;
+        } else if (category2id) {
+          query.category2Id = category2id;
+        } else if (category3id) {
+          query.category3Id = category3id;
         }
         location.query = query;
         // 如果存在params的话合并参数
