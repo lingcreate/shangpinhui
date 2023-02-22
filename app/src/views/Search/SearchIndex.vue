@@ -47,14 +47,22 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
-            <li class="with-x">手机</li>
-            <li class="with-x">iphone<i>×</i></li>
-            <li class="with-x">华为<i>×</i></li>
-            <li class="with-x">OPPO<i>×</i></li>
+            <li class="with-x" v-if="searchParams.categoryName">
+              {{ searchParams.categoryName }}
+              <i @click="removeCategoryName">×</i>
+            </li>
+            <li class="with-x" v-if="searchParams.keyword">
+              {{ searchParams.keyword }}
+              <i @click="removeKeyWord">×</i>
+            </li>
+            <li class="with-x" v-if="searchParams.trademark">
+              {{ searchParams.trademark.split(":")[1] }}
+              <i @click="removeTradeMark">×</i>
+            </li>
           </ul>
         </div>
         <!--selector-->
-        <SearchSelector></SearchSelector>
+        <SearchSelector @trademarkInfo="trademarkInfo"></SearchSelector>
         <!--details-->
         <div class="details clearfix">
           <div class="sui-navbar">
@@ -325,9 +333,9 @@ export default {
       immediate: true,
       handler() {
         // 重新发送请求前，初始化id
-        this.searchParams.category1Id = "";
-        this.searchParams.category2Id = "";
-        this.searchParams.category3Id = "";
+        this.searchParams.category1Id = undefined;
+        this.searchParams.category2Id = undefined;
+        this.searchParams.category3Id = undefined;
         // 发送请求前，重新整理参数
         Object.assign(this.searchParams, this.$route.query, this.$route.params);
         this.getSearchList();
@@ -338,6 +346,39 @@ export default {
     // 通知仓库发送list请求
     getSearchList() {
       this.$store.dispatch("search/SearchList", this.searchParams);
+    },
+    // 移除query(三级联动)面包屑
+    removeCategoryName() {
+      this.searchParams.categoryName = undefined;
+      this.searchParams.category1Id = undefined;
+      this.searchParams.category2Id = undefined;
+      this.searchParams.category3Id = undefined;
+      this.getSearchList();
+      this.$router.push({
+        name: "search",
+        params: this.$route.params,
+      });
+    },
+    // 移除params(搜索框)面包屑
+    removeKeyWord() {
+      this.searchParams.keyword = undefined;
+      this.getSearchList();
+      this.$bus.$emit("clearKeyWord");
+      this.$router.push({
+        name: "search",
+        query: this.$route.query,
+      });
+    },
+    // 移除品牌面包屑
+    removeTradeMark() {
+      this.searchParams.trademark = undefined;
+      this.getSearchList();
+    },
+    // 自定义事件品牌信息
+    trademarkInfo(trademark) {
+      // 根据点击的品牌，发送对应的请求
+      this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
+      this.getSearchList();
     },
   },
   computed: {

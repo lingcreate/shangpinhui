@@ -16,6 +16,10 @@ import '@/mock/mockServe'
 import 'swiper/css/swiper.css'
 new Vue({
   render: h => h(App),
+  beforeCreate() {
+    // 注册全局事件总线
+    Vue.prototype.$bus = this;
+  },
   // 注册路由
   router,
   store,

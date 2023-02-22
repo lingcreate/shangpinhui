@@ -88,7 +88,6 @@ export default {
 
   mounted() {
     //派发action 通过Vuex发送ajax请求
-    console.log("list mounted");
     this.$store.dispatch("home/bannerList");
   },
 

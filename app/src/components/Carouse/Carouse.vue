@@ -27,9 +27,7 @@ export default {
     return {};
   },
   props: ["CarouselObj"],
-  mounted() {
-    console.log("carouse mounted", this.CarouselObj);
-  },
+  mounted() {},
   watch: {
     CarouselObj: {
       // floor中数据是由父传过来，没有修改，因此需要立即监听

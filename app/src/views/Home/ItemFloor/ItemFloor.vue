@@ -64,9 +64,7 @@ export default {
   data() {
     return {};
   },
-  mounted() {
-    console.log("floor mounted");
-  },
+  mounted() {},
   props: ["floorObj"],
 
   computed: {},

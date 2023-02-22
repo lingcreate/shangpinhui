@@ -8,6 +8,7 @@ const state = {
     searchList: {},
 };
 const actions = {
+    // 接口要求默认参数必须至少为空对象
     async SearchList({ commit }, params = {}) {
         let result = await reqSearchList(params)
         if (result.code == 200) {

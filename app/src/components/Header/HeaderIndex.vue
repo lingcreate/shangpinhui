@@ -59,11 +59,16 @@ export default {
 
   data() {
     return {
-      keyword: "",
+      keyword: undefined,
     };
   },
 
-  mounted() {},
+  mounted() {
+    // 通过全局事件总线清除keyword
+    this.$bus.$on("clearKeyWord", () => {
+      this.keyword = "";
+    });
+  },
 
   methods: {
     goSearch() {
