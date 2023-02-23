@@ -82,28 +82,36 @@
         <div class="details clearfix">
           <div class="sui-navbar">
             <div class="navbar-inner filter">
+              <!-- 排序结构 -->
               <ul class="sui-nav">
-                <li class="active">
-                  <a href="#">综合</a>
+                <li :class="{ active: isOne }" @click="changeOrder(1)">
+                  <a
+                    >综合<span
+                      v-show="isOne"
+                      class="iconfont"
+                      :class="{
+                        'icon-arrowup': isAsc,
+                        'icon-arrowdown': isDesc,
+                      }"
+                    ></span
+                  ></a>
                 </li>
-                <li>
-                  <a href="#">销量</a>
-                </li>
-                <li>
-                  <a href="#">新品</a>
-                </li>
-                <li>
-                  <a href="#">评价</a>
-                </li>
-                <li>
-                  <a href="#">价格⬆</a>
-                </li>
-                <li>
-                  <a href="#">价格⬇</a>
+                <li :class="{ active: isTwo }" @click="changeOrder(2)">
+                  <a
+                    >价格<span
+                      v-show="isTwo"
+                      class="iconfont"
+                      :class="{
+                        'icon-arrowup': isAsc,
+                        'icon-arrowdown': isDesc,
+                      }"
+                    ></span
+                  ></a>
                 </li>
               </ul>
             </div>
           </div>
+          <!-- 销售商品列表 -->
           <div class="goods-list">
             <ul class="yui3-g">
               <li
@@ -149,35 +157,8 @@
               </li>
             </ul>
           </div>
-          <div class="fr page">
-            <div class="sui-pagination clearfix">
-              <ul>
-                <li class="prev disabled">
-                  <a href="#">«上一页</a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li class="dotted"><span>...</span></li>
-                <li class="next">
-                  <a href="#">下一页»</a>
-                </li>
-              </ul>
-              <div><span>共10页&nbsp;</span></div>
-            </div>
-          </div>
+          <!-- 分页器 -->
+          <PagiNation></PagiNation>
         </div>
         <!--hotsale-->
         <div class="clearfix hot-sale">
@@ -286,7 +267,8 @@ export default {
         category3Id: "",
         categoryName: "",
         keyword: "",
-        order: "",
+        // 初始状态 综合降序
+        order: "1:desc",
         pageNo: 1,
         pageSize: 10,
         props: [],
@@ -408,9 +390,40 @@ export default {
       this.searchParams.props.splice(index, 1);
       this.getSearchList();
     },
+    // 更改排序方式
+    changeOrder(flag) {
+      let orderFlag = this.searchParams.order.split(":")[0];
+      let orderMode = this.searchParams.order.split(":")[1];
+      // 点击的是同一个选项
+      if (flag == orderFlag) {
+        // 对排序方式进行取反
+        let order = `${flag}:${orderMode == "desc" ? "asc" : "desc"}`;
+        this.searchParams.order = order;
+      } else {
+        // 点击的是另一个选项，则默认是降序
+        let order = `${flag}:desc`;
+        this.searchParams.order = order;
+      }
+      // 重新发送请求
+      this.getSearchList();
+    },
   },
   computed: {
     ...mapGetters("search", ["goodsList"]),
+    isOne() {
+      return this.searchParams.order.indexOf("1") != -1;
+    },
+    isTwo() {
+      return this.searchParams.order.indexOf("2") != -1;
+    },
+    // 升序
+    isAsc() {
+      return this.searchParams.order.indexOf("asc") != -1;
+    },
+    // 降序
+    isDesc() {
+      return this.searchParams.order.indexOf("desc") != -1;
+    },
   },
 };
 </script>
@@ -889,82 +902,6 @@ export default {
                 }
               }
             }
-          }
-        }
-      }
-      .page {
-        width: 733px;
-        height: 66px;
-        overflow: hidden;
-        float: right;
-        .sui-pagination {
-          margin: 18px 0;
-          ul {
-            margin-left: 0;
-            margin-bottom: 0;
-            vertical-align: middle;
-            width: 490px;
-            float: left;
-            li {
-              line-height: 18px;
-              display: inline-block;
-              a {
-                position: relative;
-                float: left;
-                line-height: 18px;
-                text-decoration: none;
-                background-color: #fff;
-                border: 1px solid #e0e9ee;
-                margin-left: -1px;
-                font-size: 14px;
-                padding: 9px 18px;
-                color: #333;
-              }
-              &.active {
-                a {
-                  background-color: #fff;
-                  color: #e1251b;
-                  border-color: #fff;
-                  cursor: default;
-                }
-              }
-              &.prev {
-                a {
-                  background-color: #fafafa;
-                }
-              }
-              &.disabled {
-                a {
-                  color: #999;
-                  cursor: default;
-                }
-              }
-              &.dotted {
-                span {
-                  margin-left: -1px;
-                  position: relative;
-                  float: left;
-                  line-height: 18px;
-                  text-decoration: none;
-                  background-color: #fff;
-                  font-size: 14px;
-                  border: 0;
-                  padding: 9px 18px;
-                  color: #333;
-                }
-              }
-              &.next {
-                a {
-                  background-color: #fafafa;
-                }
-              }
-            }
-          }
-          div {
-            color: #333;
-            font-size: 14px;
-            float: right;
-            width: 241px;
           }
         }
       }
