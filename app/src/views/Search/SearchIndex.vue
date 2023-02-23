@@ -47,22 +47,37 @@
             </li>
           </ul>
           <ul class="fl sui-tag">
+            <!-- 分类面包屑 -->
             <li class="with-x" v-if="searchParams.categoryName">
               {{ searchParams.categoryName }}
               <i @click="removeCategoryName">×</i>
             </li>
+            <!-- 搜索框面包屑 -->
             <li class="with-x" v-if="searchParams.keyword">
               {{ searchParams.keyword }}
               <i @click="removeKeyWord">×</i>
             </li>
+            <!-- 品牌面包屑 -->
             <li class="with-x" v-if="searchParams.trademark">
               {{ searchParams.trademark.split(":")[1] }}
               <i @click="removeTradeMark">×</i>
             </li>
+            <!-- 售卖属性面包屑 -->
+            <li
+              class="with-x"
+              v-for="(attr, index) in searchParams.props"
+              :key="index"
+            >
+              {{ attr.split(":")[1] }}
+              <i @click="removeAttr(index)">×</i>
+            </li>
           </ul>
         </div>
         <!--selector-->
-        <SearchSelector @trademarkInfo="trademarkInfo"></SearchSelector>
+        <SearchSelector
+          @trademarkInfo="trademarkInfo"
+          @attrInfo="attrInfo"
+        ></SearchSelector>
         <!--details-->
         <div class="details clearfix">
           <div class="sui-navbar">
@@ -93,7 +108,7 @@
             <ul class="yui3-g">
               <li
                 class="yui3-u-1-5"
-                v-for="(GoodInfo, index) in goodsList"
+                v-for="GoodInfo in goodsList"
                 :key="GoodInfo.id"
               >
                 <div class="list-wrap">
@@ -374,10 +389,23 @@ export default {
       this.searchParams.trademark = undefined;
       this.getSearchList();
     },
-    // 自定义事件品牌信息
+    // 添加自定义事件品牌信息
     trademarkInfo(trademark) {
       // 根据点击的品牌，发送对应的请求
       this.searchParams.trademark = `${trademark.tmId}:${trademark.tmName}`;
+      this.getSearchList();
+    },
+    // 添加售卖属性信息
+    attrInfo(attrStr) {
+      // 判断是否已经存在此面包屑
+      if (this.searchParams.props.indexOf(attrStr) == -1) {
+        this.searchParams.props.push(attrStr);
+        this.getSearchList();
+      }
+    },
+    // 移除售卖属性面包屑
+    removeAttr(index) {
+      this.searchParams.props.splice(index, 1);
       this.getSearchList();
     },
   },

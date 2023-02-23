@@ -5,7 +5,7 @@
       <div class="value logos">
         <ul class="logo-list">
           <li
-            v-for="(trademark, index) in trademarkList"
+            v-for="trademark in trademarkList"
             :key="trademark.id"
             @click="trademarkHandle(trademark)"
           >
@@ -22,7 +22,11 @@
       <div class="fl key">{{ attr.attrName }}</div>
       <div class="fl value">
         <ul class="type-list">
-          <li v-for="(attrValue, index) in attr.attrValueList" :key="index">
+          <li
+            v-for="(attrValue, index) in attr.attrValueList"
+            :key="index"
+            @click="attrInfo(attr, attrValue)"
+          >
             <a>{{ attrValue }}</a>
           </li>
         </ul>
@@ -47,6 +51,10 @@ export default {
   methods: {
     trademarkHandle(trademark) {
       this.$emit("trademarkInfo", trademark);
+    },
+    attrInfo(attr, attrValue) {
+      let attrStr = `${attr.attrId}:${attrValue}:${attr.attrName}`;
+      this.$emit("attrInfo", attrStr);
     },
   },
   computed: {
