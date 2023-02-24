@@ -158,7 +158,13 @@
             </ul>
           </div>
           <!-- 分页器 -->
-          <PagiNation></PagiNation>
+          <PagiNation
+            :pageNo="searchParams.pageNo"
+            :pageSize="searchParams.pageSize"
+            :total="total"
+            :continues="5"
+            @sentPageNo="getPageNo"
+          ></PagiNation>
         </div>
         <!--hotsale-->
         <div class="clearfix hot-sale">
@@ -252,7 +258,7 @@
     
 <script>
 import SearchSelector from "@/views/Search/SearchSelector";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
   name: "SearchIndex",
   components: {
@@ -394,22 +400,28 @@ export default {
     changeOrder(flag) {
       let orderFlag = this.searchParams.order.split(":")[0];
       let orderMode = this.searchParams.order.split(":")[1];
+      let order = "";
       // 点击的是同一个选项
       if (flag == orderFlag) {
         // 对排序方式进行取反
-        let order = `${flag}:${orderMode == "desc" ? "asc" : "desc"}`;
-        this.searchParams.order = order;
+        order = `${flag}:${orderMode == "desc" ? "asc" : "desc"}`;
       } else {
         // 点击的是另一个选项，则默认是降序
-        let order = `${flag}:desc`;
-        this.searchParams.order = order;
+        order = `${flag}:desc`;
       }
+      this.searchParams.order = order;
       // 重新发送请求
+      this.getSearchList();
+    },
+    // 响应分页器点击事件
+    getPageNo(page) {
+      this.searchParams.pageNo = page;
       this.getSearchList();
     },
   },
   computed: {
     ...mapGetters("search", ["goodsList"]),
+    ...mapState({ total: (state) => state.search.searchList.total }),
     isOne() {
       return this.searchParams.order.indexOf("1") != -1;
     },
