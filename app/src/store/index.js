@@ -5,8 +5,9 @@ Vue.use(Vuex);
 // 引入小仓库
 import home from './home'
 import search from './search'
+import detail from './detail'
 
 // 对外暴露实例
 export default new Vuex.Store({
-    modules: { home, search }
+    modules: { home, search, detail }
 })

@@ -24,39 +24,12 @@ VueRouter.prototype.replace = function (location, resolve, reject) {
     }
 }
 
-// 引入路由组件
-import Home from '@/views/Home/HomeIndex'
-import Login from '@/views/Login/LoginIndex'
-import Register from '@/views/Register/RegisterIndex'
-import Search from '@/views/Search/SearchIndex'
+// 引入路由配置
+import routes from '@/router/routes'
 export default new VueRouter({
     // 配置路由
-    routes: [
-        {
-            path: '/home',
-            component: Home,
-            meta: { show: true }
-        },
-        {
-            path: '/login',
-            component: Login,
-            meta: { show: false }
-        },
-        {
-            path: '/search/:keyword?',
-            component: Search,
-            meta: { show: true },
-            name: 'search'
-        },
-        {
-            path: '/register',
-            component: Register,
-            meta: { show: false }
-        },
-        // 重定向路由
-        {
-            path: '/',
-            redirect: '/home'
-        },
-    ]
+    routes,
+    scrollBehavior() {
+        return { y: 0 }
+    }
 })
