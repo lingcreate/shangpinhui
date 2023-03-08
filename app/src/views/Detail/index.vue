@@ -84,11 +84,11 @@
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
-              <dl v-for="(attr, index) in spuSaleAttrList" :key="attr.id">
+              <dl v-for="attr in spuSaleAttrList" :key="attr.id">
                 <dt class="title">{{ attr.saleAttrName }}</dt>
                 <dd
                   changepirce="0"
-                  v-for="(attrValue, index) in attr.spuSaleAttrValueList"
+                  v-for="attrValue in attr.spuSaleAttrValueList"
                   :key="attrValue.id"
                   :class="{ active: attrValue.isChecked == 1 }"
                   @click="changeActive(attrValue, attr.spuSaleAttrValueList)"
@@ -99,12 +99,22 @@
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt" />
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input
+                  autocomplete="off"
+                  class="itxt"
+                  @blur="correctNum"
+                  v-model="BuyCount"
+                />
+                <a href="javascript:" class="plus" @click="BuyCount++">+</a>
+                <a
+                  href="javascript:"
+                  class="mins"
+                  @click="BuyCount < 1 ? (BuyCount = 1) : BuyCount--"
+                  >-</a
+                >
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a href="javascript:" @click="addToCart">加入购物车</a>
               </div>
             </div>
           </div>
@@ -352,6 +362,11 @@ export default {
     ImageList,
     Zoom,
   },
+  data() {
+    return {
+      BuyCount: 1,
+    };
+  },
   mounted() {
     this.$store.dispatch("detail/GetDetailList", this.$route.params.skuId);
   },
@@ -362,6 +377,57 @@ export default {
         item.isChecked = 0;
       });
       target.isChecked = 1;
+    },
+    // 更正输入的购物数量文本
+    correctNum(event) {
+      //#region 方法一 正则判断
+      // let rule = /^\+?[1-9]\d*$/;
+      // let result = rule.test(this.BuyCount);
+      // if (!result) this.BuyCount = 1;
+      //#endregion
+      // 方法二
+      // *1强制转换成number
+      let value = event.target.value * 1;
+      // 用户输入出现NaN或者小于1
+      if (isNaN(value) || value < 0) {
+        this.BuyCount = 1;
+      } else {
+        // 需要对小数进行取整
+        this.BuyCount = parseInt(value);
+      }
+    },
+    // 添加到购物车
+    async addToCart() {
+      //#region 业务逻辑
+      // 1、发送请求 通过结果判断是否能成功添加
+      // 2、成功则携带参数进行路由跳转
+      // 3、失败则返回失败的对应信息
+      //#endregion
+      try {
+        await this.$store.dispatch("detail/reqAddCart", {
+          skuId: this.$route.params.skuId,
+          skuNum: this.BuyCount,
+        });
+        // 进行路由跳转并传产品信息
+        this.$router.push({
+          name: "addcartsuccess",
+          // 简单的数据直接通过query进行传参
+          // 复杂的数据可以通过会话进行传参
+          query: {
+            // 1、选择的商品数量
+            skuNum: this.BuyCount,
+          },
+        });
+        // 2、当前的商品信息
+        sessionStorage.setItem("skuInfo", JSON.stringify(this.skuInfo));
+        // 3、用户可选择的商品售卖属性
+        sessionStorage.setItem(
+          "attrSelect",
+          JSON.stringify(this.spuSaleAttrList)
+        );
+      } catch (error) {
+        alert(error);
+      }
     },
   },
   computed: {
