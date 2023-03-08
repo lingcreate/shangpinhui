@@ -30,3 +30,34 @@ export const reqGoodDetail = (skuId) => {
         method: 'get',
     })
 }
+
+// 加入购物车请求
+export const reqAddCart = (skuId, skuNum) => {
+    return requests({
+        url: `/cart/addToCart/${skuId}/${skuNum}`,
+        method: 'post'
+    })
+}
+
+// 请求购物车列表
+export const reqShopList = () => {
+    return requests({
+        url: '/cart/cartList',
+        method: 'get'
+    })
+}
+
+// 删除购物车商品
+export const reqDeleteGood = (skuId) => {
+    return requests({
+        url: `/cart/deleteCart/${skuId}`,
+        method: 'delete'
+    })
+}
+
+export const reqChangeChecked = (skuId, isChecked) => {
+    return requests({
+        url: `/cart/checkCart/${skuId}/${isChecked}`,
+        method: 'get'
+    })
+}

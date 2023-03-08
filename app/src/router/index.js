@@ -29,6 +29,7 @@ import routes from '@/router/routes'
 export default new VueRouter({
     // 配置路由
     routes,
+    // 路由滚动
     scrollBehavior() {
         return { y: 0 }
     }

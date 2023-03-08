@@ -4,6 +4,8 @@ import Login from '@/views/Login/LoginIndex'
 import Register from '@/views/Register/RegisterIndex'
 import Search from '@/views/Search/SearchIndex'
 import Detail from '@/views/Detail'
+import AddCartSuccess from '@/views/AddCartSuccess'
+import ShopCart from '@/views/ShopCart'
 
 export default [
     {
@@ -30,6 +32,18 @@ export default [
     {
         path: '/detail/:skuId?',
         component: Detail,
+        meta: { show: true }
+    },
+    {
+        path: '/addcartsuccess',
+        name: 'addcartsuccess',
+        component: AddCartSuccess,
+        meta: { show: true }
+    },
+    {
+        path: '/shopcart',
+        component: ShopCart,
+        meta: { show: true }
     },
     // 重定向路由
     {
