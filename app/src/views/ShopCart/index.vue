@@ -131,11 +131,12 @@ export default {
           if (isNaN(num) || num < 1) {
             num = 0;
           } else {
-            parseInt(num) - good.skuNum;
+            num = parseInt(num) - good.skuNum;
           }
           break;
       }
       try {
+        // skuNum 接收正负数，表示当前商品的增减值
         await this.$store.dispatch("shopcart/getAddCart", {
           skuId: good.skuId,
           skuNum: num,

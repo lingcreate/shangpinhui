@@ -55,9 +55,52 @@ export const reqDeleteGood = (skuId) => {
     })
 }
 
+// 购物车选中状态
 export const reqChangeChecked = (skuId, isChecked) => {
     return requests({
         url: `/cart/checkCart/${skuId}/${isChecked}`,
         method: 'get'
+    })
+}
+
+// 注册获取验证码
+export const reqRegisterCode = (phone) => {
+    return requests({
+        url: `/user/passport/sendCode/${phone}`,
+        method: 'get'
+    })
+}
+
+// 完成注册
+export const reqCheckRegister = (data) => {
+    return requests({
+        url: '/user/passport/register',
+        method: 'post',
+        data
+    })
+}
+
+// 登录
+export const reqLogin = (data) => {
+    return requests({
+        url: '/user/passport/login',
+        method: 'post',
+        data
+    })
+}
+
+// 获取用户信息
+export const reqUserInfo = () => {
+    return requests({
+        url: '/user/passport/auth/getUserInfo',
+        method: 'get'
+    })
+}
+
+// 退出登录
+export const reqLogout = () => {
+    return requests({
+        url: '/user/passport/logout',
+        method: 'GET'
     })
 }

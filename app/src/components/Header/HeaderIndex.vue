@@ -6,11 +6,17 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p>
+          <p v-if="!userInfo">
             <span>请</span>
             <!-- 声明式导航必须要有to属性 -->
             <router-link to="/login">登录</router-link>
             <router-link to="/register" class="register">免费注册</router-link>
+          </p>
+          <p v-else>
+            <span></span>
+            <!-- 声明式导航必须要有to属性 -->
+            <a>{{ userInfo.name }}</a>
+            <a class="register" @click="logout">退出登录</a>
           </p>
         </div>
         <div class="typeList">
@@ -64,10 +70,17 @@ export default {
   },
 
   mounted() {
+    console.log("header mounted");
     // 通过全局事件总线清除keyword
     this.$bus.$on("clearKeyWord", () => {
       this.keyword = "";
     });
+  },
+  computed: {
+    // 用户信息
+    userInfo() {
+      return this.$store.state.user.userInfo;
+    },
   },
 
   methods: {
@@ -87,6 +100,14 @@ export default {
       // 如果存在query的话一并传过去
       if (this.$route.query != {}) location.query = this.$route.query;
       this.$router.push(location);
+    },
+    // 退出登录
+    async logout() {
+      try {
+        await this.$store.dispatch("user/getLogout");
+      } catch (e) {
+        alert(e);
+      }
     },
   },
 };

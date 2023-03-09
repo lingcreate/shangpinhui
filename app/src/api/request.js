@@ -21,6 +21,8 @@ requests.interceptors.request.use((config) => {
     // }
     // 将游客token添加到请求头中
     if (store.state.detail.uid) config.headers.userTempId = store.state.detail.uid
+    // 如果用户登录了，则将其token添加到请求头中
+    if (localStorage.getItem('token')) config.headers.token = localStorage.getItem('token')
     return config;
 })
 

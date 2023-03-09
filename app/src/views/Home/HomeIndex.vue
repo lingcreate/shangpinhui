@@ -39,6 +39,8 @@ export default {
 
   mounted() {
     this.$store.dispatch("home/floorList");
+    // 获取用户信息
+    this.$store.dispatch("user/getUserInfo");
   },
   computed: {
     ...mapState("home", ["floorList"]),

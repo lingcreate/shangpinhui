@@ -12,19 +12,17 @@ const actions = {
     async getShopList({ commit }) {
         let result = await reqShopList()
         if (result.code == 200) {
-            console.log(result);
             commit('GETSHOPLIST', result.data)
+            return '获取shopList成功'
         } else {
             return Promise.reject('获取失败')
         }
     },
     // 在购物车页面进行修改购物数量
     async getAddCart({ commit }, { skuId, skuNum }) {
-        console.log(skuId, skuNum);
         let result = await reqAddCart(skuId, skuNum)
-        console.log(result);
         if (result.code == 200) {
-            console.log('添加成功');
+            return '修改数量成功'
         } else {
             return Promise.reject(new Error)
         }
@@ -34,7 +32,7 @@ const actions = {
     async deleteGood({ commit }, skuId) {
         let result = await reqDeleteGood(skuId)
         if (result.code == 200) {
-            return 'ok'
+            return '删除成功'
         } else {
             return Promise.reject(new Error)
         }
