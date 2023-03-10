@@ -6,7 +6,7 @@
       <div class="container">
         <div class="loginList">
           <p>尚品汇欢迎您！</p>
-          <p v-if="!userInfo">
+          <p v-if="JSON.stringify(userInfo) == '{}'">
             <span>请</span>
             <!-- 声明式导航必须要有to属性 -->
             <router-link to="/login">登录</router-link>
@@ -76,6 +76,7 @@ export default {
       this.keyword = "";
     });
   },
+
   computed: {
     // 用户信息
     userInfo() {

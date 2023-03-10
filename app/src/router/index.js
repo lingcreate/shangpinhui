@@ -1,6 +1,7 @@
 // 配置路由
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "@/store";
 // 使用插件
 Vue.use(VueRouter);
 
@@ -26,7 +27,8 @@ VueRouter.prototype.replace = function (location, resolve, reject) {
 
 // 引入路由配置
 import routes from '@/router/routes'
-export default new VueRouter({
+
+let router = new VueRouter({
     // 配置路由
     routes,
     // 路由滚动
@@ -34,3 +36,37 @@ export default new VueRouter({
         return { y: 0 }
     }
 })
+
+// 路由守卫
+router.beforeEach(async (to, form, next) => {
+    let userInfo = store.state.user.userInfo.name;
+    let token = localStorage.getItem('token')
+    // 已登录
+    if (token) {
+        // 登录后还去登录页面
+        if (to.path == '/login') {
+            next('/')
+        } else {
+            if (userInfo) {
+                next()
+            } else {
+                // 没有用户信息
+                try {
+                    // 获取用户信息
+                    await store.dispatch("user/getUserInfo");
+                    next()
+                } catch (e) {
+                    // token过期，清除token重新登录
+                    await store.dispatch('user/getLogout');
+                    next('/login')
+                }
+            }
+        }
+    } else {
+        // 未登录
+        next()
+    }
+})
+
+
+export default router;

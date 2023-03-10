@@ -7,9 +7,8 @@ import { reqRegisterCode, reqCheckRegister, reqLogin, reqUserInfo, reqLogout } f
 import { setToken, getToken, removeToken } from '@/utils/token'
 const state = {
     code: '',
-    token: getToken,
+    token: getToken(),
     userInfo: {}
-
 }
 const actions = {
     // 获取验证码
@@ -49,22 +48,20 @@ const actions = {
     // 获取用户信息
     async getUserInfo({ commit }) {
         let result = await reqUserInfo()
-        console.log('用户信息:', result);
         if (result.code == 200) {
             commit('GETUSERINFO', result.data)
             return 'ok'
         } else {
-            return Promise.reject('获取失败')
+            return Promise.reject('token过期，获取用户信息失败')
         }
     },
 
     // 退出登录
-    async getLogout({ state }) {
+    async getLogout({ commit }) {
         let result = await reqLogout()
         if (result.code == 200) {
             // 清除本地数据
-            removeToken()
-            state.userInfo = ''
+            commit('GETLOGOUT')
             return 'ok'
         } else {
             return Promise.reject(new Error)
@@ -79,6 +76,12 @@ const mutations = {
     // 用户信息
     GETUSERINFO(state, data) {
         state.userInfo = data;
+    },
+    // 退出登录
+    GETLOGOUT(state) {
+        removeToken();
+        state.token = ''
+        state.userInfo = {}
     }
 
 }
