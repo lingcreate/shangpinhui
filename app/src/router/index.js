@@ -58,6 +58,7 @@ router.beforeEach(async (to, form, next) => {
                 } catch (e) {
                     // token过期，清除token重新登录
                     await store.dispatch('user/getLogout');
+                    alert('登录过期，请重新登录')
                     next('/login')
                 }
             }

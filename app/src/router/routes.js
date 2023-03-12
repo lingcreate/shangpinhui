@@ -6,8 +6,10 @@ import Search from '@/views/Search/SearchIndex'
 import Detail from '@/views/Detail'
 import AddCartSuccess from '@/views/AddCartSuccess'
 import ShopCart from '@/views/ShopCart'
+import Trade from '@/views/Trade'
 
 export default [
+
     {
         path: '/home',
         component: Home,
@@ -45,10 +47,16 @@ export default [
         component: ShopCart,
         meta: { show: true }
     },
-    // 重定向路由
     {
-        path: '/',
+        path: '/trade',
+        component: Trade,
+        meta: { show: true }
+    },
+    {
+        // 由上至下匹配，未能找到路由
+        path: '*',
         redirect: '/home'
     },
+
 ]
 

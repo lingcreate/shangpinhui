@@ -1,6 +1,7 @@
 // api接口统一管理
 import requests from "./request";
 import mockRequest from './mockAjax'
+import { mock } from "mockjs";
 
 // 三级联动接口 (分别暴露)
 export const reqCategoryList = () => {
@@ -14,6 +15,7 @@ export const reqCategoryList = () => {
 // 获取banner Mock数据
 export const reqBannerList = () => mockRequest.get('/banner')
 export const reqFloorList = () => mockRequest.get('/floor')
+
 // 获取搜索模块数据
 export const reqSearchList = (params) => {
     return requests({
@@ -102,5 +104,29 @@ export const reqLogout = () => {
     return requests({
         url: '/user/passport/logout',
         method: 'GET'
+    })
+}
+
+// 获取用户mock地址信息
+export const reqUserAddress = () => {
+    return mockRequest({
+        url: '/user/userAddress/auth/findUserAddressList',
+        method: 'get'
+    })
+}
+
+// 获取订单交易页信息
+export const reqTrade = () => {
+    return requests({
+        url: '/order/auth/trade',
+        method: 'get'
+    })
+}
+
+// 获取订单列表
+export const reqOrderList = (page, limit) => {
+    return requests({
+        url: `/order/auth/${page}/${limit}`,
+        method: 'get'
     })
 }

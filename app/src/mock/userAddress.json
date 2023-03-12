@@ -1,0 +1,18 @@
+[
+    {
+        "id":12306,
+        "userAddress":"华南师范大学",
+        "userId":20213712,
+        "consignee":"neil",
+        "phoneNum":"13782828282",
+        "isDefault":"1"
+    },
+    {
+        "id":10000,
+        "userAddress":"北京师范大学",
+        "userId":20213712,
+        "consignee":"mike",
+        "phoneNum":"15018324332",
+        "isDefault":"0"
+    }
+]

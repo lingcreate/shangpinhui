@@ -84,13 +84,16 @@
         <a href="javascript:void(0)">清除下柜商品</a>
       </div>
       <div class="money-box">
-        <div class="chosed">已选择 <span>0</span>件商品</div>
+        <div class="chosed">
+          已选择 <span>{{ TotalPrice.checkedNum }}</span
+          >件商品
+        </div>
         <div class="sumprice">
           <em>总价（不含运费） ：</em>
-          <i class="summoney">0</i>
+          <i class="summoney">{{ TotalPrice.price }}</i>
         </div>
         <div class="sumbtn">
-          <a class="sum-btn" href="###" target="_blank">结算</a>
+          <router-link class="sum-btn" to="trade">结算</router-link>
         </div>
       </div>
     </div>
@@ -198,6 +201,18 @@ export default {
     // 购物车列表
     GoodsInfo() {
       return this.cartInfoList.cartInfoList || [];
+    },
+    // 总价
+    TotalPrice() {
+      let price = 0;
+      let checked = this.GoodsInfo.filter((item) => {
+        return item.isChecked == 1;
+      });
+      checked.forEach((item) => {
+        return (price += item.skuNum * item.skuPrice);
+      });
+      let checkedNum = checked.length;
+      return { checkedNum, price };
     },
     // 全选框
     // every遍历数组，返回布尔值
