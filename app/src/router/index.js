@@ -9,6 +9,7 @@ Vue.use(VueRouter);
 const originPush = VueRouter.prototype.push;
 const originReplace = VueRouter.prototype.replace;
 
+// 重写push和replace方法去除控制台的警告信息
 VueRouter.prototype.push = function (location, resolve, reject) {
     if (resolve && reject) {
         originPush.call(this, location, resolve, reject)
@@ -65,6 +66,9 @@ router.beforeEach(async (to, form, next) => {
         }
     } else {
         // 未登录
+        if (to.path.indexOf('/shopcart') != -1 || to.path.indexOf('/pay') != -1 || to.path.indexOf('/addcartsuccess') != -1 || to.path.indexOf('/center') != -1) {
+            next(`/login?redirect=${to.path}`)
+        }
         next()
     }
 })

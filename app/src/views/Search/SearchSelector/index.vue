@@ -49,6 +49,7 @@ export default {
   mounted() {},
 
   methods: {
+    // 添加筛选属性
     trademarkHandle(trademark) {
       this.$emit("trademarkInfo", trademark);
     },

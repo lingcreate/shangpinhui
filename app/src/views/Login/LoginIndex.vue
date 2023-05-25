@@ -95,7 +95,9 @@ export default {
           phone,
           password,
         });
-        this.$router.push("/home");
+        // 判断地址栏是否有重定向query参数，有则去重定向地址，没有则去home首页
+        let topath = this.$route.query.redirect || "/home";
+        this.$router.push(topath);
       } catch (e) {
         alert(e);
       }

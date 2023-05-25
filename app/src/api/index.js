@@ -1,7 +1,7 @@
 // api接口统一管理
 import requests from "./request";
 import mockRequest from './mockAjax'
-import { mock } from "mockjs";
+// import { mock } from "mockjs";
 
 // 三级联动接口 (分别暴露)
 export const reqCategoryList = () => {
@@ -119,6 +119,33 @@ export const reqUserAddress = () => {
 export const reqTrade = () => {
     return requests({
         url: '/order/auth/trade',
+        method: 'get'
+    })
+}
+
+// 提交订单
+export const reqSubmitOrder = (tradeNo, data) => {
+    console.log(tradeNo);
+    return requests({
+        url: `/order/auth/submitOrder?tradeNo=${tradeNo}`,
+        method: 'post',
+        data
+    })
+}
+
+
+// 获取订单支付信息
+export const reqPayInfo = (orderId) => {
+    return requests({
+        url: `/payment/weixin/createNative/${orderId}`,
+        method: 'get'
+    })
+}
+
+// 获取支付状态
+export const reqPayState = (orderId) => {
+    return requests({
+        url: `/payment/weixin/queryPayStatus/${orderId}`,
         method: 'get'
     })
 }

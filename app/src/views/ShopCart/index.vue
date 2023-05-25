@@ -11,7 +11,7 @@
         <div class="cart-th6">操作</div>
       </div>
       <div class="cart-body">
-        <ul class="cart-list" v-for="(good, index) in GoodsInfo" :key="good.id">
+        <ul class="cart-list" v-for="good in GoodsInfo" :key="good.id">
           <li class="cart-list-con1">
             <input
               type="checkbox"

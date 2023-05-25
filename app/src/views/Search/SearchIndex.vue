@@ -336,10 +336,11 @@ export default {
       immediate: true,
       handler() {
         // 重新发送请求前，初始化id
-        this.searchParams.category1Id = undefined;
-        this.searchParams.category2Id = undefined;
-        this.searchParams.category3Id = undefined;
-        // 发送请求前，重新整理参数
+        // void 0 相当于 undefined
+        this.searchParams.category1Id = void 0;
+        this.searchParams.category2Id = void 0;
+        this.searchParams.category3Id = void 0;
+        // 整理参数，使用最新的分级id和关键字进行重新请求
         Object.assign(this.searchParams, this.$route.query, this.$route.params);
         this.getSearchList();
       },
@@ -348,8 +349,10 @@ export default {
   methods: {
     // 通知仓库发送list请求
     getSearchList() {
+      console.log(this.searchParams);
       this.$store.dispatch("search/SearchList", this.searchParams);
     },
+
     // 移除query(三级联动)面包屑
     removeCategoryName() {
       this.searchParams.categoryName = undefined;
@@ -362,21 +365,31 @@ export default {
         params: this.$route.params,
       });
     },
+
     // 移除params(搜索框)面包屑
     removeKeyWord() {
-      this.searchParams.keyword = undefined;
+      this.searchParams.keyword = void 0;
       this.getSearchList();
+      // 清除header组件中的搜索框keyword
       this.$bus.$emit("clearKeyWord");
       this.$router.push({
         name: "search",
         query: this.$route.query,
       });
     },
+
     // 移除品牌面包屑
     removeTradeMark() {
       this.searchParams.trademark = undefined;
       this.getSearchList();
     },
+
+    // 移除售卖属性面包屑
+    removeAttr(index) {
+      this.searchParams.props.splice(index, 1);
+      this.getSearchList();
+    },
+
     // 添加自定义事件品牌信息
     trademarkInfo(trademark) {
       // 根据点击的品牌，发送对应的请求
@@ -391,11 +404,7 @@ export default {
         this.getSearchList();
       }
     },
-    // 移除售卖属性面包屑
-    removeAttr(index) {
-      this.searchParams.props.splice(index, 1);
-      this.getSearchList();
-    },
+
     // 更改排序方式
     changeOrder(flag) {
       let orderFlag = this.searchParams.order.split(":")[0];

@@ -1,4 +1,4 @@
-// 引入路由组件
+// 引入一级路由组件
 import Home from '@/views/Home/HomeIndex'
 import Login from '@/views/Login/LoginIndex'
 import Register from '@/views/Register/RegisterIndex'
@@ -7,6 +7,12 @@ import Detail from '@/views/Detail'
 import AddCartSuccess from '@/views/AddCartSuccess'
 import ShopCart from '@/views/ShopCart'
 import Trade from '@/views/Trade'
+import Pay from '@/views/Pay'
+import PaySuccess from '@/views/PaySuccess'
+import Center from '@/views/Center'
+// 引入二级路由
+import MyOrder from '@/views/Center/MyOrder'
+import GroupOrder from '@/views/Center/GroupOrder'
 
 export default [
 
@@ -50,6 +56,50 @@ export default [
     {
         path: '/trade',
         component: Trade,
+        meta: { show: true },
+        beforeEnter: (to, from, next) => {
+            if (from.path == '/shopcart') {
+                next()
+            } else {
+                // 保持停留在当前路由
+                next(false)
+            }
+        }
+    },
+    {
+        path: '/pay',
+        component: Pay,
+        meta: { show: true },
+        beforeEnter: (to, from, next) => {
+            if (from.path == '/trade') {
+                next()
+            } else {
+                next(false)
+            }
+        }
+    },
+    {
+        path: '/paysuccess',
+        component: PaySuccess,
+        meta: { show: true }
+    },
+    {
+        path: '/center',
+        component: Center,
+        children: [
+            {
+                path: 'myorder',
+                component: MyOrder,
+            },
+            {
+                path: 'grouporder',
+                component: GroupOrder,
+            },
+            {
+                path: '/center',
+                redirect: '/center/myorder'
+            }
+        ],
         meta: { show: true }
     },
     {

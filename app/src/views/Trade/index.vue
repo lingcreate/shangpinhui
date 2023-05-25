@@ -93,7 +93,8 @@
       <div class="price">
         应付金额:<span>¥{{ TradeInfo.totalAmount }}</span>
       </div>
-      <div class="receiveInfo">
+      <!-- curAddress引用了userAddress，首次渲染会报错，使用if进行判断 -->
+      <div class="receiveInfo" v-if="curAddress != undefined">
         寄送至:
         <span>{{ curAddress.userAddress }}</span>
         收货人：<span>{{ curAddress.consignee }}</span>
@@ -101,14 +102,14 @@
       </div>
     </div>
     <div class="sub clearFix">
-      <router-link class="subBtn" to="/pay">提交订单</router-link>
+      <a class="subBtn" @click="SubmitOrder">提交订单</a>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Trade",
+  name: "TradePage",
   data() {
     return {
       message: "",
@@ -125,6 +126,30 @@ export default {
         item.isDefault = 0;
       });
       address.isDefault = 1;
+    },
+
+    // 提交订单
+    async SubmitOrder() {
+      try {
+        let { tradeNo } = this.TradeInfo;
+        let data = {
+          consignee: this.curAddress.consignee,
+          consigneeTel: this.curAddress.phoneNum,
+          deliveryAddress: this.curAddress.userAddress,
+          paymentWay: "ONLINE",
+          orderComment: this.message,
+          orderDetailList: this.TradeInfo.detailArrayList,
+        };
+        let result = await this.$API.reqSubmitOrder(tradeNo, data);
+        console.log(result);
+        if (result.code == 200) {
+          this.orderId = result.data;
+          // 跳转支付页面
+          this.$router.push("/pay?orderId=" + this.orderId);
+        }
+      } catch (e) {
+        alert(e);
+      }
     },
   },
   computed: {

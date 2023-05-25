@@ -16,11 +16,17 @@ import store from '@/store'
 import '@/mock/mockServe'
 // 引入swiper样式
 import 'swiper/css/swiper.css'
+import * as API from '@/api'
+// 引入element-ui
+import { MessageBox } from 'element-ui';
 new Vue({
   render: h => h(App),
   beforeCreate() {
     // 注册全局事件总线
     Vue.prototype.$bus = this;
+    Vue.prototype.$API = API
+    Vue.prototype.$msgbox = MessageBox
+    Vue.prototype.$alert = MessageBox.alert
   },
   // 注册路由
   router,

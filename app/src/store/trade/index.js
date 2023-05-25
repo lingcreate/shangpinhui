@@ -31,7 +31,7 @@ const actions = {
         } else {
             return Promise.reject(new Error)
         }
-    }
+    },
 };
 const mutations = {
     GETTRADE(state, data) {
@@ -39,7 +39,7 @@ const mutations = {
     },
     GETUSERADDRESS(state, data) {
         state.address = data
-    }
+    },
 };
 const getters = {};
 
