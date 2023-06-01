@@ -2,6 +2,8 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import store from "@/store";
+// 引入路由配置
+import routes from '@/router/routes'
 // 使用插件
 Vue.use(VueRouter);
 
@@ -26,13 +28,11 @@ VueRouter.prototype.replace = function (location, resolve, reject) {
     }
 }
 
-// 引入路由配置
-import routes from '@/router/routes'
 
 let router = new VueRouter({
     // 配置路由
     routes,
-    // 路由滚动
+    // 切换到新路由时,路由滚动
     scrollBehavior() {
         return { y: 0 }
     }
@@ -65,7 +65,7 @@ router.beforeEach(async (to, form, next) => {
             }
         }
     } else {
-        // 未登录
+        // 未登录，则跳转到登录页面
         if (to.path.indexOf('/shopcart') != -1 || to.path.indexOf('/pay') != -1 || to.path.indexOf('/addcartsuccess') != -1 || to.path.indexOf('/center') != -1) {
             next(`/login?redirect=${to.path}`)
         }

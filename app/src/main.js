@@ -18,11 +18,25 @@ import '@/mock/mockServe'
 import 'swiper/css/swiper.css'
 import * as API from '@/api'
 // 引入element-ui
-import { MessageBox } from 'element-ui';
+import { MessageBox, Form, FormItem, Input, Button, Checkbox } from 'element-ui';
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Input)
+Vue.use(Button)
+Vue.use(Checkbox)
+// 懒加载插件
+import VueLazyload from 'vue-lazyload'
+import lazyImg from "@/assets/images/lazyImg.gif"
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  loading: lazyImg,
+})
+
 new Vue({
   render: h => h(App),
   beforeCreate() {
     // 注册全局事件总线
+    console.log('this', this);
     Vue.prototype.$bus = this;
     Vue.prototype.$API = API
     Vue.prototype.$msgbox = MessageBox
